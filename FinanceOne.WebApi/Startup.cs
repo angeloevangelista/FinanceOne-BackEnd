@@ -47,7 +47,7 @@ namespace FinanceOne.WebApi
       services.AddDbContext<UserDataContext>(options =>
         options.UseNpgsql(
           Configuration.GetConnectionString("PostgreSQL"),
-          action => action.MigrationsAssembly("FinanceOne.WebApi")
+          action => action.MigrationsAssembly("FinanceOne.DataAccess")
         )
       );
 

@@ -10,5 +10,5 @@ then
   printf "${RED}Invalid usage.${NO_COLOR}\n"
   echo "Usage: add-migration <migration name>"
 else
-  dotnet ef migrations add creating-users --project ./FinanceOne.WebApi --output-dir ../FinanceOne.DataAccess/Migrations
+  dotnet ef migrations add ${MIGRATION_NAME} --project ./FinanceOne.DataAccess/ --startup-project ./FinanceOne.WebApi
 fi
