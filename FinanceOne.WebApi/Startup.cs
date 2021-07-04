@@ -44,14 +44,14 @@ namespace FinanceOne.WebApi
       services.AddScoped<ISessionService, SessionService>();
 
       /*EF Core*/
-      services.AddDbContext<UserDataContext>(options =>
+      services.AddDbContext<FinanceOneDataContext>(options =>
         options.UseNpgsql(
           Configuration.GetConnectionString("PostgreSQL"),
           action => action.MigrationsAssembly("FinanceOne.DataAccess")
         )
       );
 
-      services.AddScoped<UserDataContext>();
+      services.AddScoped<FinanceOneDataContext>();
       /*EF Core*/
 
       services.AddCors();

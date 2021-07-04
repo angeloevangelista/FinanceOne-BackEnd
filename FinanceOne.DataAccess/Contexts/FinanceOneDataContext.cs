@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FinanceOne.DataAccess.Contexts
 {
-  public class UserDataContext : DbContext
+  public class FinanceOneDataContext : DbContext
   {
-    public UserDataContext(DbContextOptions<UserDataContext> options)
+    public FinanceOneDataContext(DbContextOptions<FinanceOneDataContext> options)
       : base(options)
     {
     }
@@ -13,7 +13,7 @@ namespace FinanceOne.DataAccess.Contexts
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
       modelBuilder
-        .ApplyConfigurationsFromAssembly(typeof(UserDataContext).Assembly);
+        .ApplyConfigurationsFromAssembly(typeof(FinanceOneDataContext).Assembly);
     }
 
     public DbSet<User> Users { get; private set; }

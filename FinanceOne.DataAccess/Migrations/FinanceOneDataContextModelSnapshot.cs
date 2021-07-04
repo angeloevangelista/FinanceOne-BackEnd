@@ -3,17 +3,15 @@ using System;
 using FinanceOne.DataAccess.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace FinanceOne.DataAccess.Migrations
 {
-    [DbContext(typeof(UserDataContext))]
-    [Migration("20210704152624_creating-users")]
-    partial class creatingusers
+    [DbContext(typeof(FinanceOneDataContext))]
+    partial class FinanceOneDataContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
