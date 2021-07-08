@@ -5,14 +5,10 @@ namespace FinanceOne.Domain.Entities
 {
   public class User : BaseEntity
   {
-    public User()
+    public User() : base()
     {
-      CreatedAt = DateTime.UtcNow;
-      UpdatedAt = DateTime.UtcNow;
     }
 
-    public DateTime CreatedAt { get; set; }
-    public DateTime UpdatedAt { get; set; }
     public Guid Id { get; set; }
     public string FirstName { get; set; }
     public string LastName { get; set; }

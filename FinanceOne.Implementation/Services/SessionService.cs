@@ -4,6 +4,7 @@ using FinanceOne.Shared.Exceptions;
 using FinanceOne.Shared.Repositories;
 using FinanceOne.Domain.ViewModels.SessionViewModels;
 using FinanceOne.Shared.Contracts.Services;
+using System;
 
 namespace FinanceOne.Implementation.Services
 {
@@ -11,20 +12,25 @@ namespace FinanceOne.Implementation.Services
   {
     private readonly IHashService _hashService;
     private readonly IUserRepository _userRepository;
+    private readonly IRefreshTokenRepository _refreshTokenRepository;
     private readonly IJwtService _jwtService;
 
     public SessionService(
       IJwtService jwtService,
       IHashService hashService,
-      IUserRepository userRepository
+      IUserRepository userRepository,
+      IRefreshTokenRepository refreshTokenRepository
     )
     {
       this._jwtService = jwtService;
       this._hashService = hashService;
       this._userRepository = userRepository;
+      this._refreshTokenRepository = refreshTokenRepository;
     }
 
-    public string CreateSession(CreateSessionViewModel createSessionViewModel)
+    public ResultSessionViewModel CreateSession(
+      CreateSessionViewModel createSessionViewModel
+    )
     {
       var foundUser = this._userRepository.FindByEmail(
         createSessionViewModel.Email
@@ -50,7 +56,29 @@ namespace FinanceOne.Implementation.Services
 
       var token = this._jwtService.GenerateToken(sessionPayload, "Id");
 
-      return token;
+      var refreshToken = new RefreshToken()
+      {
+        Id = Guid.NewGuid(),
+        ExpiresAt = DateTime.UtcNow.AddDays(7),
+        UserId = foundUser.Id
+      };
+
+      this._refreshTokenRepository.Create(refreshToken);
+
+      var session = new ResultSessionViewModel()
+      {
+        Token = token,
+        RefreshToken = refreshToken.Id.ToString(),
+      };
+
+      return session;
+    }
+
+    public ResultSessionViewModel RefreshSession(
+      RefreshSessionViewModel refreshSessionViewModel
+    )
+    {
+      throw new System.NotImplementedException();
     }
   }
 }

@@ -24,17 +24,35 @@ namespace FinanceOne.WebApi.Controllers
     [HttpPost]
     [AllowAnonymous]
     [Route("/v1/sessions")]
-    public ActionResult<ApiResponse<string>> CreateUser(
+    public ActionResult<ApiResponse<ResultSessionViewModel>> CreateSession(
       [FromBody] CreateSessionViewModel createSessionViewModel
     )
     {
       ValidateViewModel(createSessionViewModel);
 
-      var sessionToken = this._sessionService.CreateSession(
+      var session = this._sessionService.CreateSession(
         createSessionViewModel
       );
 
-      return Ok(new ApiResponse<string>(sessionToken));
+      return Ok(new ApiResponse<ResultSessionViewModel>(session));
+    }
+
+    [HttpPut]
+    [AllowAnonymous]
+    [Route("/v1/sessions")]
+    public ActionResult<ApiResponse<ResultSessionViewModel>> RefreshSession(
+      [FromBody] RefreshSessionViewModel refreshSessionViewModel
+    )
+    {
+      refreshSessionViewModel.Token = this.GetAuthorizationToken();
+
+      ValidateViewModel(refreshSessionViewModel);
+
+      var session = this._sessionService.RefreshSession(
+        refreshSessionViewModel
+      );
+
+      return Ok(new ApiResponse<ResultSessionViewModel>(session));
     }
   }
 }

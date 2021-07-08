@@ -40,7 +40,8 @@ namespace FinanceOne.WebApi
       services.AddScoped<IJwtService, JwtService>();
       services.AddScoped<IUserService, UserService>();
       services.AddScoped<IHashService, HashService>();
-      services.AddScoped<IUserRepository, UserRepository>(); // Singleton it's beeing used for tests
+      services.AddScoped<IUserRepository, UserRepository>();
+      services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
       services.AddScoped<ISessionService, SessionService>();
 
       /*EF Core*/
