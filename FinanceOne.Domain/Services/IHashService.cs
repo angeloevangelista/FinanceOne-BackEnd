@@ -4,5 +4,6 @@ namespace FinanceOne.Domain.Services
   {
     string Hash(string message);
     bool Verify(string message, string hash);
+    string GenerateRandomHash(int length = 8);
   }
 }
