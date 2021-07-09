@@ -26,7 +26,10 @@ namespace FinanceOne.Implementation.Services
     )
     {
       var emailAlreadyUsed = this._userRepository.FindByEmail(
-        createUserViewModel.Email
+        new User()
+        {
+          Email = createUserViewModel.Email
+        }
       ) != null;
 
       if (emailAlreadyUsed)
@@ -89,7 +92,10 @@ namespace FinanceOne.Implementation.Services
       if (updateEmail)
       {
         var emailAlreadyUsed = this._userRepository.FindByEmail(
-          updateUserViewModel.Email
+          new User()
+          {
+            Email = updateUserViewModel.Email
+          }
         ) != null;
 
         if (emailAlreadyUsed)

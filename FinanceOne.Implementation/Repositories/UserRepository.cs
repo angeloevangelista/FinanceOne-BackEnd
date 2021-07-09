@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using FinanceOne.DataAccess.Contexts;
 using FinanceOne.Domain.Entities;
+using FinanceOne.Shared.Enumerators;
 using FinanceOne.Shared.Repositories;
 using Microsoft.EntityFrameworkCore;
 
@@ -28,19 +29,24 @@ namespace FinanceOne.Implementation.Repositories
 
     public void Delete(User user)
     {
-      var foundUser = this._financeOneDataContext.Users
-        .AsNoTracking()
-        .First(p => p.Id == user.Id);
+      var foundUser = this.FindById(user);
 
-      this._financeOneDataContext.Remove(foundUser);
+      foundUser.Active = IndicatorYesNo.No;
+
+      this._financeOneDataContext.Entry<User>(foundUser).State =
+        EntityState.Modified;
+
       this._financeOneDataContext.SaveChanges();
     }
 
-    public User FindByEmail(string email)
+    public User FindByEmail(User user)
     {
       var foundUser = this._financeOneDataContext.Users
         .AsNoTracking()
-        .FirstOrDefault(p => p.Email.ToLower() == email.ToLower());
+        .FirstOrDefault(p =>
+          p.Email.ToLower() == user.Email.ToLower()
+          && p.Active == user.Active
+        );
 
       return foundUser;
     }
@@ -49,7 +55,10 @@ namespace FinanceOne.Implementation.Repositories
     {
       var foundUser = this._financeOneDataContext.Users
         .AsNoTracking()
-        .FirstOrDefault(p => p.Id == user.Id);
+        .FirstOrDefault(p =>
+          p.Id == user.Id
+          && p.Active == user.Active
+        );
 
       return foundUser;
     }
@@ -60,7 +69,8 @@ namespace FinanceOne.Implementation.Repositories
 
       foundUser = user;
 
-      this._financeOneDataContext.Entry<User>(foundUser).State = EntityState.Modified;
+      this._financeOneDataContext.Entry<User>(foundUser).State =
+        EntityState.Modified;
 
       this._financeOneDataContext.SaveChanges();
 

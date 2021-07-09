@@ -5,7 +5,12 @@ namespace FinanceOne.Domain.Services
 {
   public interface ISessionService
   {
-    ResultSessionViewModel CreateSession(CreateSessionViewModel createSessionViewModel);
-    ResultSessionViewModel RefreshSession(RefreshSessionViewModel refreshSessionViewModel);
+    ResultSessionViewModel CreateSession(
+      CreateSessionViewModel createSessionViewModel
+    );
+
+    ResultSessionViewModel RefreshSession(
+      RefreshSessionViewModel refreshSessionViewModel
+    );
   }
 }

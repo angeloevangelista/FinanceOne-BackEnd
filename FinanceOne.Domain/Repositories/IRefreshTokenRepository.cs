@@ -7,5 +7,7 @@ namespace FinanceOne.Shared.Repositories
   public interface IRefreshTokenRepository
   {
     RefreshToken Create(RefreshToken refreshToken);
+    RefreshToken FindById(RefreshToken refreshToken);
+    void DeleteAllRefreshTokensByUserId(RefreshToken refreshToken);
   }
 }

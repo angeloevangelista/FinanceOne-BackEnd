@@ -3,15 +3,17 @@ using System;
 using FinanceOne.DataAccess.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace FinanceOne.DataAccess.Migrations
 {
     [DbContext(typeof(FinanceOneDataContext))]
-    partial class FinanceOneDataContextModelSnapshot : ModelSnapshot
+    [Migration("20210709031435_adding-active-field-to-entities")]
+    partial class addingactivefieldtoentities
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

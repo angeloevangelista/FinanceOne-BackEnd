@@ -1,3 +1,4 @@
+using System;
 using FinanceOne.Shared.ViewModels;
 
 namespace FinanceOne.Domain.ViewModels.SessionViewModels
@@ -15,7 +16,10 @@ namespace FinanceOne.Domain.ViewModels.SessionViewModels
         this._brokenRules.Add("Token is required.");
 
       if (string.IsNullOrEmpty(this.RefreshToken?.Trim()))
-        this._brokenRules.Add("Refresh token is required.");
+        this._brokenRules.Add("RefreshToken token is required.");
+
+      if (!Guid.TryParse(this?.RefreshToken, out var parsedGuid))
+        this._brokenRules.Add("RefreshToken is not a valid UUID.");
     }
   }
 }

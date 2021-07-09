@@ -1,4 +1,6 @@
+using System;
 using FinanceOne.Domain.Entities;
+using FinanceOne.Shared.Enumerators;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -36,6 +38,19 @@ namespace FinanceOne.DataAccess.Configurations
 
       builder.Property(pre => pre.CreatedAt)
         .HasColumnName("created_at")
+        .IsRequired();
+
+      builder.Property(pre => pre.Active)
+        .HasColumnName("active")
+        .HasColumnType("char")
+        .HasDefaultValue(IndicatorYesNo.Yes)
+        .HasConversion(
+          enumValue => ((char)enumValue).ToString(),
+          charValue => (IndicatorYesNo)Enum.Parse(
+            typeof(IndicatorYesNo),
+            Enum.GetName(typeof(IndicatorYesNo), Convert.ToChar(charValue))
+          )
+        )
         .IsRequired();
 
       builder.Property(pre => pre.UpdatedAt)

@@ -44,8 +44,6 @@ namespace FinanceOne.WebApi.Controllers
       [FromBody] RefreshSessionViewModel refreshSessionViewModel
     )
     {
-      refreshSessionViewModel.Token = this.GetAuthorizationToken();
-
       ValidateViewModel(refreshSessionViewModel);
 
       var session = this._sessionService.RefreshSession(

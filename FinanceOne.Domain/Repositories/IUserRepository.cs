@@ -11,6 +11,6 @@ namespace FinanceOne.Shared.Repositories
     void Delete(User user);
 
     User FindById(User user);
-    User FindByEmail(string email);
+    User FindByEmail(User user);
   }
 }

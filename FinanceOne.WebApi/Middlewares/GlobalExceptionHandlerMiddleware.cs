@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FinanceOne.Domain.ViewModels;
+using FinanceOne.Shared.Entities;
 using FinanceOne.Shared.Exceptions;
 using FinanceOne.Shared.ViewModels;
 using Microsoft.AspNetCore.Hosting;
@@ -29,9 +30,9 @@ namespace FinanceOne.WebApi.Middlewares
       {
         await next(context);
       }
-      catch (BusinessException businessException)
+      catch (CustomException customException)
       {
-        await HandleBusinessExceptionAsync(context, businessException);
+        await HandleCustomExceptionAsync(context, customException);
       }
       catch (Exception exception)
       {
@@ -45,8 +46,6 @@ namespace FinanceOne.WebApi.Middlewares
       Exception exception
     )
     {
-      const int statusCode = StatusCodes.Status500InternalServerError;
-
       var response = new ApiResponse<object>
       {
         Success = false,
@@ -55,31 +54,44 @@ namespace FinanceOne.WebApi.Middlewares
 
       var json = JsonConvert.SerializeObject(response);
 
-      context.Response.StatusCode = statusCode;
       context.Response.ContentType = "application/json";
+      context.Response.StatusCode = StatusCodes.Status500InternalServerError;
 
       return context.Response.WriteAsync(json);
     }
 
-    private static Task HandleBusinessExceptionAsync(
+    private static Task HandleCustomExceptionAsync(
       HttpContext context,
-      BusinessException businessException
+      CustomException customException
     )
     {
-      const int statusCode = StatusCodes.Status400BadRequest;
-
       var response = new ApiResponse<object>
       {
         Success = false,
-        Errors = businessException.BrokenRules.ToList(),
+        Errors = customException.BrokenRules.ToList(),
       };
 
       var json = JsonConvert.SerializeObject(response);
 
-      context.Response.StatusCode = statusCode;
       context.Response.ContentType = "application/json";
+      context.Response.StatusCode = GetStatusCodeForException(customException);
 
       return context.Response.WriteAsync(json);
+    }
+
+    private static int GetStatusCodeForException(
+      CustomException customException
+    )
+    {
+      int statusCode = StatusCodes.Status400BadRequest;
+
+      if (customException is BusinessException)
+        statusCode = StatusCodes.Status400BadRequest;
+
+      if (customException is AuthException)
+        statusCode = StatusCodes.Status401Unauthorized;
+
+      return statusCode;
     }
   }
 }

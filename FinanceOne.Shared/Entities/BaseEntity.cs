@@ -1,4 +1,5 @@
 using System;
+using FinanceOne.Shared.Enumerators;
 
 namespace FinanceOne.Shared.Entities
 {
@@ -6,11 +7,13 @@ namespace FinanceOne.Shared.Entities
   {
     public BaseEntity()
     {
+      Active = IndicatorYesNo.Yes;
       CreatedAt = DateTime.UtcNow;
       UpdatedAt = DateTime.UtcNow;
     }
 
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
+    public IndicatorYesNo Active { get; set; }
   }
 }

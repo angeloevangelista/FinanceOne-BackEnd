@@ -20,8 +20,9 @@ namespace FinanceOne.Shared.Services
       this._configuration = configuration;
     }
 
-    public T DecodeToken<T>(string token)
+    public bool CheckTokenIsTrustworthy(string token)
     {
+      var tokenIsTrustworthy = true;
 
       var appSecret = this._configuration
         .GetSection("Security")
@@ -39,6 +40,36 @@ namespace FinanceOne.Shared.Services
           IssuerSigningKey = new SymmetricSecurityKey(encodedAppSecret),
           ValidateIssuer = false,
           ValidateAudience = false,
+          ValidateLifetime = false,
+        }, out SecurityToken validatedToken);
+      }
+      catch
+      {
+        tokenIsTrustworthy = false;
+      }
+
+      return tokenIsTrustworthy;
+    }
+
+    public T DecodeToken<T>(string token, bool validateExpiration = true)
+    {
+      var appSecret = this._configuration
+        .GetSection("Security")
+        .GetSection("AppSecret")
+        .Value;
+
+      var tokenHandler = new JwtSecurityTokenHandler();
+      var encodedAppSecret = Encoding.ASCII.GetBytes(appSecret);
+
+      try
+      {
+        tokenHandler.ValidateToken(token, new TokenValidationParameters
+        {
+          ValidateIssuerSigningKey = true,
+          IssuerSigningKey = new SymmetricSecurityKey(encodedAppSecret),
+          ValidateIssuer = false,
+          ValidateAudience = false,
+          ValidateLifetime = validateExpiration,
           ClockSkew = TimeSpan.Zero
         }, out SecurityToken validatedToken);
 
@@ -55,6 +86,8 @@ namespace FinanceOne.Shared.Services
         throw new BusinessException("Invalid payload format.");
       }
     }
+
+
 
     public string GenerateToken<T>(T payloadObject, string identifierProperty)
     {

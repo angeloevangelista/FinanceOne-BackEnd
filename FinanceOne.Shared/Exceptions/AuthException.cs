@@ -4,9 +4,9 @@ using System.Linq;
 
 namespace FinanceOne.Shared.Exceptions
 {
-  public class BusinessException : CustomException
+  public class AuthException : CustomException
   {
-    public BusinessException(params string[] brokenRules) : base(brokenRules)
+    public AuthException(params string[] brokenRules) : base(brokenRules)
     {
     }
   }
