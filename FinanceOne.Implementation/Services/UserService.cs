@@ -21,7 +21,7 @@ namespace FinanceOne.Implementation.Services
       this._userRepository = userRepository;
     }
 
-    public ListUserResponseViewModel CreateUser(
+    public ShowUserResponseViewModel CreateUser(
       CreateUserViewModel createUserViewModel
     )
     {
@@ -50,7 +50,7 @@ namespace FinanceOne.Implementation.Services
 
       user = this._userRepository.Create(user);
 
-      return new ListUserResponseViewModel()
+      return new ShowUserResponseViewModel()
       {
         Id = user.Id,
         FirstName = user.FirstName,
@@ -72,7 +72,7 @@ namespace FinanceOne.Implementation.Services
       this._userRepository.Delete(foundUser);
     }
 
-    public ListUserResponseViewModel UpdateUser(
+    public ShowUserResponseViewModel UpdateUser(
       UpdateUserViewModel updateUserViewModel
     )
     {
@@ -119,7 +119,7 @@ namespace FinanceOne.Implementation.Services
 
       foundUser = this._userRepository.Update(foundUser);
 
-      return new ListUserResponseViewModel()
+      return new ShowUserResponseViewModel()
       {
         Id = foundUser.Id,
         FirstName = foundUser.FirstName,

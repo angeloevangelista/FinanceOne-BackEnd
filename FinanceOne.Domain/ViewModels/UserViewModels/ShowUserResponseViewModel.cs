@@ -3,7 +3,7 @@ using FinanceOne.Shared.ViewModels;
 
 namespace FinanceOne.Domain.ViewModels.UserViewModels
 {
-  public class ListUserResponseViewModel : BaseViewModel
+  public class ShowUserResponseViewModel : BaseViewModel
   {
     public Guid Id { get; set; }
     public string FirstName { get; set; }

@@ -12,7 +12,6 @@ namespace FinanceOne.WebApi.Controllers
   [ApiController]
   public class UserController : CustomControllerBase
   {
-
     private readonly IUserService _userService;
 
     public UserController(IUserService userService, IJwtService jwtService)
@@ -24,7 +23,7 @@ namespace FinanceOne.WebApi.Controllers
     [HttpPost]
     [AllowAnonymous]
     [Route("/v1/users")]
-    public ActionResult<ApiResponse<ListUserResponseViewModel>> CreateUser(
+    public ActionResult<ApiResponse<ShowUserResponseViewModel>> CreateUser(
       [FromBody] CreateUserViewModel createUserViewModel
     )
     {
@@ -32,12 +31,12 @@ namespace FinanceOne.WebApi.Controllers
 
       var createdUser = this._userService.CreateUser(createUserViewModel);
 
-      return Ok(new ApiResponse<ListUserResponseViewModel>(createdUser));
+      return Ok(new ApiResponse<ShowUserResponseViewModel>(createdUser));
     }
 
     [HttpPut]
     [Route("/v1/users")]
-    public ActionResult<ApiResponse<ListUserResponseViewModel>> UpdateUser(
+    public ActionResult<ApiResponse<ShowUserResponseViewModel>> UpdateUser(
       [FromBody] UpdateUserViewModel updateUserViewModel
     )
     {
@@ -47,7 +46,7 @@ namespace FinanceOne.WebApi.Controllers
 
       var updatedUser = this._userService.UpdateUser(updateUserViewModel);
 
-      return Ok(new ApiResponse<ListUserResponseViewModel>(updatedUser));
+      return Ok(new ApiResponse<ShowUserResponseViewModel>(updatedUser));
     }
   }
 }
