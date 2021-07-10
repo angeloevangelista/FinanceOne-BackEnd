@@ -36,6 +36,11 @@ namespace FinanceOne.DataAccess.Configurations
         .HasColumnType("VARCHAR(255)")
         .IsRequired();
 
+      builder.Property(pre => pre.AvatarUrl)
+        .HasColumnName("avatar_url")
+        .HasColumnType("VARCHAR(255)")
+        .IsRequired(false);
+
       builder.Property(pre => pre.CreatedAt)
         .HasColumnName("created_at")
         .IsRequired();
