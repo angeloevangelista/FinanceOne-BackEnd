@@ -1,4 +1,3 @@
-using System;
 using FinanceOne.Domain.ViewModels.UserViewModels;
 
 namespace FinanceOne.Domain.Services
@@ -13,10 +12,14 @@ namespace FinanceOne.Domain.Services
       UpdateUserViewModel updateUserViewModel
     );
 
-    // ShowUserResponseViewModel UpdateAvatar(
-    //   UpdateAvatarViewModel updateAvatarViewModel
-    // );
+    ShowUserResponseViewModel UpdateAvatar(
+      UpdateAvatarViewModel updateAvatarViewModel
+    );
 
-    void DeleteUser(Guid UserId);
+    ShowUserResponseViewModel GetUser(
+      string userId
+    );
+
+    void DeleteUser(string UserId);
   }
 }

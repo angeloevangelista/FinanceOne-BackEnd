@@ -42,5 +42,10 @@ namespace FinanceOne.Shared.Controllers
 
       return this._jwtService.DecodeToken<T>(token);
     }
+
+    public override OkObjectResult Ok(object value)
+    {
+      return base.Ok(new ApiResponse<object>(value));
+    }
   }
 }

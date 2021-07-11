@@ -2,10 +2,11 @@
 using FinanceOne.Domain.Services;
 using FinanceOne.Domain.ViewModels.UserViewModels;
 using FinanceOne.Shared.Controllers;
-using FinanceOne.Shared.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using FinanceOne.Shared.Contracts.Services;
 using FinanceOne.Domain.Entities;
+using System;
+using Microsoft.AspNetCore.Http;
 
 namespace FinanceOne.WebApi.Controllers
 {
@@ -23,7 +24,7 @@ namespace FinanceOne.WebApi.Controllers
     [HttpPost]
     [AllowAnonymous]
     [Route("/v1/users")]
-    public ActionResult<ApiResponse<ShowUserResponseViewModel>> CreateUser(
+    public ActionResult<ShowUserResponseViewModel> CreateUser(
       [FromBody] CreateUserViewModel createUserViewModel
     )
     {
@@ -31,12 +32,12 @@ namespace FinanceOne.WebApi.Controllers
 
       var createdUser = this._userService.CreateUser(createUserViewModel);
 
-      return Ok(new ApiResponse<ShowUserResponseViewModel>(createdUser));
+      return Ok(createdUser);
     }
 
     [HttpPut]
     [Route("/v1/users")]
-    public ActionResult<ApiResponse<ShowUserResponseViewModel>> UpdateUser(
+    public ActionResult<ShowUserResponseViewModel> UpdateUser(
       [FromBody] UpdateUserViewModel updateUserViewModel
     )
     {
@@ -46,7 +47,44 @@ namespace FinanceOne.WebApi.Controllers
 
       var updatedUser = this._userService.UpdateUser(updateUserViewModel);
 
-      return Ok(new ApiResponse<ShowUserResponseViewModel>(updatedUser));
+      return Ok(updatedUser);
+    }
+
+    [HttpPatch]
+    [Route("/v1/users")]
+    public ActionResult<ShowUserResponseViewModel> UpdateAvatar(
+      [FromForm] UpdateAvatarViewModel updateAvatarViewModel
+    )
+    {
+      updateAvatarViewModel.UserId = this.GetTokenPayload<SessionPayload>().Id;
+
+      ValidateViewModel(updateAvatarViewModel);
+
+      var updatedUser = this._userService.UpdateAvatar(updateAvatarViewModel);
+
+      return Ok(updatedUser);
+    }
+
+    [HttpDelete]
+    [Route("/v1/users")]
+    public ActionResult DeleteUser()
+    {
+      var userId = this.GetTokenPayload<SessionPayload>().Id;
+
+      this._userService.DeleteUser(userId);
+
+      return StatusCode(StatusCodes.Status204NoContent);
+    }
+
+    [HttpGet]
+    [Route("/v1/users")]
+    public ActionResult<ShowUserResponseViewModel> GetUser()
+    {
+      var userId = this.GetTokenPayload<SessionPayload>().Id;
+
+      var user = this._userService.GetUser(userId);
+
+      return Ok(user);
     }
   }
 }

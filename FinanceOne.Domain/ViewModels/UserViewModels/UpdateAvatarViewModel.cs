@@ -19,28 +19,32 @@ namespace FinanceOne.Domain.ViewModels.UserViewModels
       if (string.IsNullOrEmpty(this.UserId?.Trim()))
         this._brokenRules.Add("Id is required.");
 
-      if (!Guid.TryParse(this?.UserId, out var parsedGuid))
+      if (!Guid.TryParse(this.UserId, out var parsedGuid))
         this._brokenRules.Add("Id is not a valid UUID.");
 
-      if (this.File == null)
+      var fileWasNotSent = this.File == null;
+
+      if (fileWasNotSent)
         this._brokenRules.Add("File is required.");
+      else
+      {
+        if (this.File.Length <= 0)
+          this._brokenRules.Add("File is corrupted.");
 
-      if (this.File?.Length <= 0)
-        this._brokenRules.Add("File is corrupted.");
+        if (this.File.Length > 1_048_576)
+          this._brokenRules.Add("File must be smaller than 1MB.");
 
-      if (this.File?.Length > 1024)
-        this._brokenRules.Add("File must be smaller than 1MB.");
+        var extension = Path
+          .GetExtension(this.File.FileName)
+          .ToUpper();
 
-      var extension = Path
-        .GetExtension(this.File?.FileName)
-        .ToUpper();
+        var validExtensions = new string[] { ".jpg", ".jpeg", ".png" };
 
-      var validExtensions = new string[] { ".jpg", ".jpeg", ".png" };
+        var validFormat = validExtensions.Any(p => p.ToUpper() == extension);
 
-      var validFormat = validExtensions.Any(p => p.ToUpper() == extension);
-
-      if (!validFormat)
-        this._brokenRules.Add("File was in unsupported format.");
+        if (!validFormat)
+          this._brokenRules.Add("File was in unsupported format.");
+      }
     }
   }
 }

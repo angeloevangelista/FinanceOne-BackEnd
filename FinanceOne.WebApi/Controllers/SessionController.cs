@@ -34,7 +34,7 @@ namespace FinanceOne.WebApi.Controllers
         createSessionViewModel
       );
 
-      return Ok(new ApiResponse<ResultSessionViewModel>(session));
+      return Ok(session);
     }
 
     [HttpPut]
@@ -50,7 +50,7 @@ namespace FinanceOne.WebApi.Controllers
         refreshSessionViewModel
       );
 
-      return Ok(new ApiResponse<ResultSessionViewModel>(session));
+      return Ok(session);
     }
   }
 }

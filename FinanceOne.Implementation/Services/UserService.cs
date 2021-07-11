@@ -4,6 +4,8 @@ using FinanceOne.Domain.Entities;
 using FinanceOne.Domain.Services;
 using FinanceOne.Shared.Exceptions;
 using FinanceOne.Shared.Repositories;
+using FinanceOne.Domain.Providers;
+using FinanceOne.Domain.Enumerators;
 
 namespace FinanceOne.Implementation.Services
 {
@@ -11,14 +13,17 @@ namespace FinanceOne.Implementation.Services
   {
     private readonly IHashService _hashService;
     private readonly IUserRepository _userRepository;
+    private readonly IStorageProvider _storageProvider;
 
     public UserService(
       IHashService hashService,
-      IUserRepository userRepository
+      IUserRepository userRepository,
+      IStorageProvider storageProvider
     )
     {
       this._hashService = hashService;
       this._userRepository = userRepository;
+      this._storageProvider = storageProvider;
     }
 
     public ShowUserResponseViewModel CreateUser(
@@ -50,26 +55,59 @@ namespace FinanceOne.Implementation.Services
 
       user = this._userRepository.Create(user);
 
-      return new ShowUserResponseViewModel()
-      {
-        Id = user.Id,
-        FirstName = user.FirstName,
-        LastName = user.LastName,
-        Email = user.Email
-      };
+      return ShowUserResponseViewModel.ConvertFromUser(user);
     }
 
-    public void DeleteUser(Guid UserId)
+    public void DeleteUser(string UserId)
     {
       var foundUser = this._userRepository.FindById(new User()
       {
-        Id = UserId
+        Id = Guid.Parse(UserId)
       });
 
       if (foundUser == null)
         throw new BusinessException("User not found.");
 
       this._userRepository.Delete(foundUser);
+    }
+
+    public ShowUserResponseViewModel GetUser(
+      string userId
+    )
+    {
+      var foundUser = this._userRepository.FindById(new User()
+      {
+        Id = Guid.Parse(userId)
+      });
+
+      if (foundUser == null)
+        throw new BusinessException("User not found.");
+
+      return ShowUserResponseViewModel.ConvertFromUser(foundUser);
+    }
+
+    public ShowUserResponseViewModel UpdateAvatar(
+      UpdateAvatarViewModel updateAvatarViewModel
+    )
+    {
+      var foundUser = this._userRepository.FindById(new User()
+      {
+        Id = Guid.Parse(updateAvatarViewModel.UserId)
+      });
+
+      if (foundUser == null)
+        throw new BusinessException("User not found.");
+
+      var avatarUrl = this._storageProvider.UploadFile(
+        updateAvatarViewModel.File,
+        FileType.ProfileAvatar
+      );
+
+      foundUser.AvatarUrl = avatarUrl;
+
+      this._userRepository.Update(foundUser);
+
+      return ShowUserResponseViewModel.ConvertFromUser(foundUser);
     }
 
     public ShowUserResponseViewModel UpdateUser(
@@ -119,13 +157,7 @@ namespace FinanceOne.Implementation.Services
 
       foundUser = this._userRepository.Update(foundUser);
 
-      return new ShowUserResponseViewModel()
-      {
-        Id = foundUser.Id,
-        FirstName = foundUser.FirstName,
-        LastName = foundUser.LastName,
-        Email = foundUser.Email
-      };
+      return ShowUserResponseViewModel.ConvertFromUser(foundUser);
     }
   }
 }

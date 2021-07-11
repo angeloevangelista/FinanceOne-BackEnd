@@ -124,7 +124,8 @@ namespace FinanceOne.Implementation.Services
         throw authException;
 
       var tokenPayload = this._jwtService.DecodeToken<SessionPayload>(
-        refreshSessionViewModel.Token
+        refreshSessionViewModel.Token,
+        false
       );
 
       var refreshAndTokenUsersMatchs =

@@ -1,5 +1,7 @@
 using FinanceOne.DataAccess.Contexts;
+using FinanceOne.Domain.Providers;
 using FinanceOne.Domain.Services;
+using FinanceOne.Implementation.Providers;
 using FinanceOne.Implementation.Repositories;
 using FinanceOne.Implementation.Services;
 using FinanceOne.Shared.Contracts.Services;
@@ -43,6 +45,7 @@ namespace FinanceOne.WebApi
       services.AddScoped<IUserRepository, UserRepository>();
       services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
       services.AddScoped<ISessionService, SessionService>();
+      services.AddScoped<IStorageProvider, FirebaseStorageProvider>();
 
       /*EF Core*/
       services.AddDbContext<FinanceOneDataContext>(options =>
