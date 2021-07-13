@@ -87,8 +87,6 @@ namespace FinanceOne.Shared.Services
       }
     }
 
-
-
     public string GenerateToken<T>(T payloadObject, string identifierProperty)
     {
       var payloadType = payloadObject.GetType();
