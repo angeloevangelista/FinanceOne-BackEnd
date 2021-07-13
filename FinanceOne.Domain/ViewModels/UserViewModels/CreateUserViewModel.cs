@@ -11,7 +11,7 @@ namespace FinanceOne.Domain.ViewModels.UserViewModels
     public string Email { get; set; }
     public string Password { get; set; }
 
-    public override void DoValidation()
+    public override BaseViewModel DoValidation()
     {
       base.DoValidation();
 
@@ -41,6 +41,8 @@ namespace FinanceOne.Domain.ViewModels.UserViewModels
 
       if (this.Password?.Length > 16)
         this._brokenRules.Add("Password must be smaller than 16 characters.");
+
+      return this;
     }
   }
 }

@@ -22,10 +22,7 @@ namespace FinanceOne.Shared.Controllers
 
     protected void ValidateViewModel(BaseViewModel viewModel)
     {
-      viewModel.DoValidation();
-
-      if (viewModel.IsInvalid)
-        throw new BusinessException(viewModel.GetBrokenRules().ToArray());
+      viewModel.DoValidation().ThrowBusinessExceptionIfNotValid();
     }
 
     protected string GetAuthorizationToken()

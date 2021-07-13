@@ -8,7 +8,7 @@ namespace FinanceOne.Domain.ViewModels.SessionViewModels
     public string Token { get; set; }
     public string RefreshToken { get; set; }
 
-    public override void DoValidation()
+    public override BaseViewModel DoValidation()
     {
       base.DoValidation();
 
@@ -20,6 +20,8 @@ namespace FinanceOne.Domain.ViewModels.SessionViewModels
 
       if (!Guid.TryParse(this?.RefreshToken, out var parsedGuid))
         this._brokenRules.Add("RefreshToken is not a valid UUID.");
+
+      return this;
     }
   }
 }

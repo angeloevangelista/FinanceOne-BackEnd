@@ -7,7 +7,7 @@ namespace FinanceOne.Domain.ViewModels.SessionViewModels
     public string Email { get; set; }
     public string Password { get; set; }
 
-    public override void DoValidation()
+    public override BaseViewModel DoValidation()
     {
       base.DoValidation();
 
@@ -19,6 +19,8 @@ namespace FinanceOne.Domain.ViewModels.SessionViewModels
 
       if (string.IsNullOrEmpty(this.Password?.Trim()))
         this._brokenRules.Add("Password is required.");
+
+      return this;
     }
   }
 }

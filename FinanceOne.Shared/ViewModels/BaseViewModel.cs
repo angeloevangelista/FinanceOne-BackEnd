@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using FinanceOne.Shared.Exceptions;
 
 namespace FinanceOne.Shared.ViewModels
 {
@@ -24,11 +25,19 @@ namespace FinanceOne.Shared.ViewModels
       this._brokenRules = new List<string>();
     }
 
-    public virtual void DoValidation()
+    public virtual BaseViewModel DoValidation()
     {
       this._brokenRules = new List<string>();
+
+      return this;
     }
 
     public IList<string> GetBrokenRules() => this._brokenRules.ToArray();
+
+    public void ThrowBusinessExceptionIfNotValid()
+    {
+      if (this.IsInvalid)
+        throw new BusinessException(this.GetBrokenRules().ToArray());
+    }
   }
 }

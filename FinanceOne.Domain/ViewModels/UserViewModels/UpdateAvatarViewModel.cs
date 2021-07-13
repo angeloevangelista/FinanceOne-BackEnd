@@ -12,7 +12,7 @@ namespace FinanceOne.Domain.ViewModels.UserViewModels
     public string UserId { get; set; }
     public IFormFile File { get; set; }
 
-    public override void DoValidation()
+    public override BaseViewModel DoValidation()
     {
       base.DoValidation();
 
@@ -45,6 +45,8 @@ namespace FinanceOne.Domain.ViewModels.UserViewModels
         if (!validFormat)
           this._brokenRules.Add("File was in unsupported format.");
       }
+
+      return this;
     }
   }
 }
