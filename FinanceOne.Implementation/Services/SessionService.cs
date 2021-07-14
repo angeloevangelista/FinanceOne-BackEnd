@@ -159,7 +159,7 @@ namespace FinanceOne.Implementation.Services
           }
         );
 
-        this._refreshTokenRepository.Create(refreshToken);
+        refreshToken = this._refreshTokenRepository.Create(refreshToken);
 
         transactionScope.Complete();
       }
