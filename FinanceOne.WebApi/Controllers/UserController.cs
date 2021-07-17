@@ -15,7 +15,7 @@ namespace FinanceOne.WebApi.Controllers
   {
     private readonly IUserService _userService;
 
-    public UserController(IUserService userService, IJwtService jwtService)
+    public UserController(IJwtService jwtService, IUserService userService)
       : base(jwtService)
     {
       this._userService = userService;

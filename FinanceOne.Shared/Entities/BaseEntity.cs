@@ -3,7 +3,7 @@ using FinanceOne.Shared.Enumerators;
 
 namespace FinanceOne.Shared.Entities
 {
-  public abstract class BaseEntity
+  public class BaseEntity
   {
     public BaseEntity()
     {
@@ -12,6 +12,7 @@ namespace FinanceOne.Shared.Entities
       UpdatedAt = DateTime.UtcNow;
     }
 
+    public Guid Id { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
     public IndicatorYesNo Active { get; set; }

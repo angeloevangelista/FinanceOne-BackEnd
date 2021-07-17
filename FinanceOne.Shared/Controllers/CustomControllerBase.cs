@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System;
 
 namespace FinanceOne.Shared.Controllers
 {
@@ -35,9 +36,16 @@ namespace FinanceOne.Shared.Controllers
 
     protected T GetTokenPayload<T>()
     {
-      var token = this.GetAuthorizationToken();
+      try
+      {
+        var token = this.GetAuthorizationToken();
 
-      return this._jwtService.DecodeToken<T>(token);
+        return this._jwtService.DecodeToken<T>(token);
+      }
+      catch
+      {
+        throw new AuthException("Invalid Credentials.");
+      }
     }
 
     public override OkObjectResult Ok(object value)

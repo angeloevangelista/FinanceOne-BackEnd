@@ -55,7 +55,6 @@ namespace FinanceOne.Implementation.Services
       {
         Id = foundUser.Id.ToString(),
         Name = $"{foundUser.FirstName} {foundUser.LastName}",
-        Email = foundUser.Email,
       };
 
       var token = this._jwtService.GenerateToken(sessionPayload, "Id");
@@ -138,7 +137,6 @@ namespace FinanceOne.Implementation.Services
       {
         Id = foundUser.Id.ToString(),
         Name = $"{foundUser.FirstName} {foundUser.LastName}",
-        Email = foundUser.Email,
       };
 
       var token = this._jwtService.GenerateToken(sessionPayload, "Id");

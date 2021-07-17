@@ -21,6 +21,10 @@ namespace FinanceOne.Implementation.Repositories
 
     public RefreshToken Create(RefreshToken refreshToken)
     {
+      var user = this._financeOneDataContext.Users.Find(refreshToken.User);
+
+      refreshToken.User = user;
+
       this._financeOneDataContext.RefreshTokens.Add(refreshToken);
       this._financeOneDataContext.SaveChanges();
 
