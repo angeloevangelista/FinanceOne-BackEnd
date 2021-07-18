@@ -17,9 +17,11 @@ namespace FinanceOne.WebApi.Controllers
     [AllowAnonymous]
     public ActionResult CatchAll()
     {
-      Response.StatusCode = 404;
-
-      return base.NotFound(new ApiResponse<object>(new { Message = "Uhuuul! You are in a void" }));
+      return NotFound(new ApiResponse<object>()
+      {
+        Success = false,
+        Data = "👽"
+      });
     }
   }
 }
