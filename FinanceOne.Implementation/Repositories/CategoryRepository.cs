@@ -59,7 +59,7 @@ namespace FinanceOne.Implementation.Repositories
 
       foundCategory = category;
 
-      this._financeOneDataContext.Entry<Category>(category).State =
+      this._financeOneDataContext.Entry<Category>(foundCategory).State =
         EntityState.Modified;
 
       this._financeOneDataContext.SaveChanges();

@@ -53,31 +53,19 @@ namespace FinanceOne.Implementation.Services
 
       category = this._categoryRepository.Create(category);
 
-      return ShowCategoryResponseViewModel.ConvertFromCategory(category);
+      return ShowCategoryResponseViewModel.ConvertFromEntity(category);
     }
 
     public void DeleteCategory(DeleteCategoryViewModel deleteCategoryViewModel)
     {
-      var foundUser = this._userRepository.FindById(new User()
-      {
-        Id = Guid.Parse(deleteCategoryViewModel.UserId)
-      });
+      var foundCategory = ICategoryService.ValidateCategoryWasCreatedByUser(
+        this._categoryRepository,
+        this._userRepository,
+        deleteCategoryViewModel.Id,
+        deleteCategoryViewModel.UserId
+      );
 
-      if (foundUser == null)
-        throw new BusinessException("User not found.");
-
-      var foundCategory = this._categoryRepository.FindById(new Category()
-      {
-        Id = Guid.Parse(deleteCategoryViewModel.Id)
-      });
-
-      if (foundCategory == null)
-        throw new BusinessException("Category not found.");
-
-      var categoryWasCreatedByUser = foundCategory.UserId == foundUser.Id;
-
-      if (!categoryWasCreatedByUser)
-        throw new BusinessException("Category not found.");
+      foundCategory.UpdatedAt = DateTime.UtcNow;
 
       this._categoryRepository.Delete(foundCategory);
     }
@@ -86,28 +74,17 @@ namespace FinanceOne.Implementation.Services
       GetCategoryViewModel getCategoryViewModel
     )
     {
-      var foundUser = this._userRepository.FindById(new User()
-      {
-        Id = Guid.Parse(getCategoryViewModel.UserId)
-      });
-
-      if (foundUser == null)
-        throw new BusinessException("User not found.");
-
-      var foundCategory = this._categoryRepository.FindById(new Category()
-      {
-        Id = Guid.Parse(getCategoryViewModel.Id)
-      });
+      var foundCategory = ICategoryService.ValidateCategoryWasCreatedByUser(
+        this._categoryRepository,
+        this._userRepository,
+        getCategoryViewModel.Id,
+        getCategoryViewModel.UserId
+      );
 
       if (foundCategory == null)
         throw new BusinessException("Category not found.");
 
-      var categoryWasCreatedByUser = foundCategory.UserId == foundUser.Id;
-
-      if (!categoryWasCreatedByUser)
-        throw new BusinessException("Category not found.");
-
-      return ShowCategoryResponseViewModel.ConvertFromCategory(foundCategory);
+      return ShowCategoryResponseViewModel.ConvertFromEntity(foundCategory);
     }
 
     public IList<ShowCategoryResponseViewModel> ListCategories(
@@ -128,7 +105,7 @@ namespace FinanceOne.Implementation.Services
       });
 
       return categories
-        .Select(p => ShowCategoryResponseViewModel.ConvertFromCategory(p))
+        .Select(p => ShowCategoryResponseViewModel.ConvertFromEntity(p))
         .ToList();
     }
 
@@ -136,26 +113,12 @@ namespace FinanceOne.Implementation.Services
       UpdateCategoryViewModel updateCategoryViewModel
     )
     {
-      var foundUser = this._userRepository.FindById(new User()
-      {
-        Id = Guid.Parse(updateCategoryViewModel.UserId)
-      });
-
-      if (foundUser == null)
-        throw new BusinessException("User not found.");
-
-      var foundCategory = this._categoryRepository.FindById(new Category()
-      {
-        Id = Guid.Parse(updateCategoryViewModel.Id)
-      });
-
-      if (foundCategory == null)
-        throw new BusinessException("Category not found.");
-
-      var categoryWasCreatedByUser = foundCategory.UserId == foundUser.Id;
-
-      if (!categoryWasCreatedByUser)
-        throw new BusinessException("Category not found.");
+      var foundCategory = ICategoryService.ValidateCategoryWasCreatedByUser(
+        this._categoryRepository,
+        this._userRepository,
+        updateCategoryViewModel.Id,
+        updateCategoryViewModel.UserId
+      );
 
       var updateName =
         updateCategoryViewModel.Name != foundCategory.Name;
@@ -178,10 +141,11 @@ namespace FinanceOne.Implementation.Services
       }
 
       foundCategory.Description = updateCategoryViewModel.Description;
+      foundCategory.UpdatedAt = DateTime.Now;
 
       foundCategory = this._categoryRepository.Update(foundCategory);
 
-      return ShowCategoryResponseViewModel.ConvertFromCategory(foundCategory);
+      return ShowCategoryResponseViewModel.ConvertFromEntity(foundCategory);
     }
   }
 }

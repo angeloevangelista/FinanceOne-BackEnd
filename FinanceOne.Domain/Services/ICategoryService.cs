@@ -1,10 +1,13 @@
+using System;
 using System.Collections.Generic;
+using FinanceOne.Domain.Entities;
 using FinanceOne.Domain.ViewModels.CategoryViewModels;
-using FinanceOne.Domain.ViewModels.UserViewModels;
+using FinanceOne.Shared.Exceptions;
+using FinanceOne.Shared.Repositories;
 
 namespace FinanceOne.Domain.Services
 {
-  public interface ICategoryService
+  public interface ICategoryService : ICategoryServiceStaticMembers
   {
     ShowCategoryResponseViewModel CreateCategory(
       CreateCategoryViewModel createCategoryViewModel

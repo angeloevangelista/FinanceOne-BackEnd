@@ -68,12 +68,12 @@ namespace FinanceOne.Implementation.Services
       if (foundUser == null)
         throw new BusinessException("User not found.");
 
+      foundUser.UpdatedAt = DateTime.UtcNow;
+
       this._userRepository.Delete(foundUser);
     }
 
-    public ShowUserResponseViewModel GetUser(
-      string userId
-    )
+    public ShowUserResponseViewModel GetUser(string userId)
     {
       var foundUser = this._userRepository.FindById(new User()
       {
@@ -104,6 +104,7 @@ namespace FinanceOne.Implementation.Services
       );
 
       foundUser.AvatarUrl = avatarUrl;
+      foundUser.UpdatedAt = DateTime.UtcNow;
 
       this._userRepository.Update(foundUser);
 

@@ -40,11 +40,13 @@ namespace FinanceOne.WebApi.Controllers
     }
 
     [HttpPut]
-    [Route("/v1/categories")]
+    [Route("/v1/categories/{categoryId}")]
     public ActionResult<ShowCategoryResponseViewModel> UpdateCategory(
+      [FromRoute] string categoryId,
       [FromBody] UpdateCategoryViewModel updateCategoryViewModel
     )
     {
+      updateCategoryViewModel.Id = categoryId;
       updateCategoryViewModel.UserId = GetTokenPayload<SessionPayload>().Id;
 
       ValidateViewModel(updateCategoryViewModel);
@@ -75,12 +77,16 @@ namespace FinanceOne.WebApi.Controllers
     }
 
     [HttpDelete]
-    [Route("/v1/categories")]
+    [Route("/v1/categories/{categoryId}")]
     public ActionResult DeleteCategory(
-      [FromBody] DeleteCategoryViewModel deleteCategoryViewModel
+      [FromRoute] string categoryId
     )
     {
-      deleteCategoryViewModel.UserId = GetTokenPayload<SessionPayload>().Id;
+      var deleteCategoryViewModel = new DeleteCategoryViewModel()
+      {
+        Id = categoryId,
+        UserId = GetTokenPayload<SessionPayload>().Id
+      };
 
       ValidateViewModel(deleteCategoryViewModel);
 

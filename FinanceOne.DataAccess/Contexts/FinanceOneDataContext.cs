@@ -5,19 +5,23 @@ namespace FinanceOne.DataAccess.Contexts
 {
   public sealed class FinanceOneDataContext : DbContext
   {
-    public FinanceOneDataContext(DbContextOptions<FinanceOneDataContext> options)
-      : base(options)
+    public FinanceOneDataContext(
+      DbContextOptions<FinanceOneDataContext> options
+    ) : base(options)
     {
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
       modelBuilder
-        .ApplyConfigurationsFromAssembly(typeof(FinanceOneDataContext).Assembly);
+        .ApplyConfigurationsFromAssembly(
+          typeof(FinanceOneDataContext).Assembly
+        );
     }
 
     public DbSet<User> Users { get; private set; }
     public DbSet<RefreshToken> RefreshTokens { get; private set; }
     public DbSet<Category> Categories { get; private set; }
+    public DbSet<FinancialMovement> FinancialMovements { get; private set; }
   }
 }

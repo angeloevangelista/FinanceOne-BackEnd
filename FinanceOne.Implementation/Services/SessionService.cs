@@ -68,7 +68,7 @@ namespace FinanceOne.Implementation.Services
 
       using (var transactionScope = new TransactionScope())
       {
-        this._refreshTokenRepository.DeleteAllRefreshTokensByUserId(
+        this._refreshTokenRepository.DeleteRefreshTokensByUser(
           new RefreshToken()
           {
             UserId = foundUser.Id
@@ -150,7 +150,7 @@ namespace FinanceOne.Implementation.Services
 
       using (var transactionScope = new TransactionScope())
       {
-        this._refreshTokenRepository.DeleteAllRefreshTokensByUserId(
+        this._refreshTokenRepository.DeleteRefreshTokensByUser(
           new RefreshToken()
           {
             UserId = foundUser.Id

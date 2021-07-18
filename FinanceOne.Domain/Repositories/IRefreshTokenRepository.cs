@@ -8,6 +8,6 @@ namespace FinanceOne.Shared.Repositories
   {
     RefreshToken Create(RefreshToken refreshToken);
     RefreshToken FindById(RefreshToken refreshToken);
-    void DeleteAllRefreshTokensByUserId(RefreshToken refreshToken);
+    void DeleteRefreshTokensByUser(RefreshToken refreshToken);
   }
 }

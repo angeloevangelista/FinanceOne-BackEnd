@@ -24,7 +24,7 @@ namespace FinanceOne.Tests.Mocks.Services
       return refreshToken;
     }
 
-    public void DeleteAllRefreshTokensByUserId(RefreshToken refreshToken)
+    public void DeleteRefreshTokensByUser(RefreshToken refreshToken)
     {
       var refreshTokens = this._refreshTokens
         .Where(p =>

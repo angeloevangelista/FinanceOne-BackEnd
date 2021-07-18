@@ -1,6 +1,7 @@
 using System;
 using FinanceOne.Domain.Entities;
 using FinanceOne.Shared.Enumerators;
+using FinanceOne.Shared.Util.DataTypes;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -51,10 +52,7 @@ namespace FinanceOne.DataAccess.Configurations
         .HasDefaultValue(IndicatorYesNo.Yes)
         .HasConversion(
           enumValue => ((char)enumValue).ToString(),
-          charValue => (IndicatorYesNo)Enum.Parse(
-            typeof(IndicatorYesNo),
-            Enum.GetName(typeof(IndicatorYesNo), Convert.ToChar(charValue))
-          )
+          charValue => UtilEnum.Parse<IndicatorYesNo>(charValue)
         )
         .IsRequired();
 

@@ -1,5 +1,6 @@
 using System;
 using FinanceOne.Domain.Entities;
+using FinanceOne.Domain.Enumerators;
 using FinanceOne.Shared.Enumerators;
 using FinanceOne.Shared.Util.DataTypes;
 using Microsoft.EntityFrameworkCore;
@@ -7,18 +8,18 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace FinanceOne.DataAccess.Configurations
 {
-  public class CategoryConfiguration : IEntityTypeConfiguration<Category>
+  public class FinancialMovementConfiguration : IEntityTypeConfiguration<FinancialMovement>
   {
-    public void Configure(EntityTypeBuilder<Category> builder)
+    public void Configure(EntityTypeBuilder<FinancialMovement> builder)
     {
-      builder.ToTable("categories");
-      builder.HasKey(pre => pre.Id).HasName("pk_categories");
+      builder.ToTable("financial_movements");
+      builder.HasKey(pre => pre.Id).HasName("pk_financial_movements");
 
       builder.Property(pre => pre.Id)
         .HasColumnName("id");
 
-      builder.Property(pre => pre.UserId)
-        .HasColumnName("user_id")
+      builder.Property(pre => pre.CategoryId)
+        .HasColumnName("category_id")
         .IsRequired();
 
       builder.Property(pre => pre.Name)
@@ -26,9 +27,8 @@ namespace FinanceOne.DataAccess.Configurations
         .HasColumnType("VARCHAR(50)")
         .IsRequired();
 
-      builder.Property(pre => pre.Description)
-        .HasColumnName("description")
-        .HasColumnType("VARCHAR(150)")
+      builder.Property(pre => pre.Cost)
+        .HasColumnName("cost")
         .IsRequired();
 
       builder.Property(pre => pre.CreatedAt)
@@ -49,11 +49,21 @@ namespace FinanceOne.DataAccess.Configurations
         )
         .IsRequired();
 
+      builder.Property(pre => pre.FinancialMovementType)
+        .HasColumnName("financial_movement_type")
+        .HasColumnType("char")
+        .HasDefaultValue(FinancialMovementType.Expense)
+        .HasConversion(
+          enumValue => ((char)enumValue).ToString(),
+          charValue => UtilEnum.Parse<FinancialMovementType>(charValue)
+        )
+        .IsRequired();
+
       builder
-        .HasOne<User>(pre => pre.User)
+        .HasOne<Category>(pre => pre.Category)
         .WithMany()
-        .HasForeignKey(pre => pre.UserId)
-        .HasConstraintName("fk_user")
+        .HasForeignKey(pre => pre.CategoryId)
+        .HasConstraintName("fk_category")
         .OnDelete(DeleteBehavior.Cascade);
     }
   }

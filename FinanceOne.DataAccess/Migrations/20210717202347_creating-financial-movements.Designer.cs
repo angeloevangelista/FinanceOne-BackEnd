@@ -3,15 +3,17 @@ using System;
 using FinanceOne.DataAccess.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace FinanceOne.DataAccess.Migrations
 {
     [DbContext(typeof(FinanceOneDataContext))]
-    partial class FinanceOneDataContextModelSnapshot : ModelSnapshot
+    [Migration("20210717202347_creating-financial-movements")]
+    partial class creatingfinancialmovements
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -82,19 +84,14 @@ namespace FinanceOne.DataAccess.Migrations
                         .HasColumnName("category_id");
 
                     b.Property<decimal>("Cost")
-                        .HasColumnType("numeric")
-                        .HasColumnName("cost");
+                        .HasColumnType("numeric");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp without time zone")
                         .HasColumnName("created_at");
 
-                    b.Property<string>("FinancialMovementType")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char")
-                        .HasDefaultValue("E")
-                        .HasColumnName("financial_movement_type");
+                    b.Property<int>("FinancialMovementType")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Name")
                         .IsRequired()

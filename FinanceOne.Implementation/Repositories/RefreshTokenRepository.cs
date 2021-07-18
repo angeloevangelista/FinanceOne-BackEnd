@@ -31,7 +31,7 @@ namespace FinanceOne.Implementation.Repositories
       return refreshToken;
     }
 
-    public void DeleteAllRefreshTokensByUserId(RefreshToken refreshToken)
+    public void DeleteRefreshTokensByUser(RefreshToken refreshToken)
     {
       var refreshTokens = this._financeOneDataContext.RefreshTokens
         .Where(p =>
@@ -40,7 +40,10 @@ namespace FinanceOne.Implementation.Repositories
         );
 
       foreach (var recoveredRefreshToken in refreshTokens)
+      {
         recoveredRefreshToken.Active = IndicatorYesNo.No;
+        recoveredRefreshToken.UpdatedAt = DateTime.UtcNow;
+      }
 
       this._financeOneDataContext.SaveChanges();
     }

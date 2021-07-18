@@ -44,10 +44,12 @@ namespace FinanceOne.WebApi
       services.AddScoped<IHashService, HashService>();
       services.AddScoped<ISessionService, SessionService>();
       services.AddScoped<ICategoryService, CategoryService>();
+      services.AddScoped<IFinancialMovementService, FinancialMovementService>();
 
       services.AddScoped<IUserRepository, UserRepository>();
       services.AddScoped<ICategoryRepository, CategoryRepository>();
       services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
+      services.AddScoped<IFinancialMovementRepository, FinancialMovementRepository>();
 
       services.AddScoped<IStorageProvider, FirebaseStorageProvider>();
 

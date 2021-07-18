@@ -9,7 +9,6 @@ namespace FinanceOne.Shared.Repositories
     User Create(User user);
     User Update(User user);
     void Delete(User user);
-
     User FindById(User user);
     User FindByEmail(User user);
   }
