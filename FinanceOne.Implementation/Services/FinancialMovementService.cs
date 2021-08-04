@@ -5,6 +5,7 @@ using FinanceOne.Domain.Entities;
 using FinanceOne.Domain.Enumerators;
 using FinanceOne.Domain.Services;
 using FinanceOne.Domain.ViewModels.FinancialMovementViewModels;
+using FinanceOne.Shared.Enumerators;
 using FinanceOne.Shared.Exceptions;
 using FinanceOne.Shared.Repositories;
 using FinanceOne.Shared.Util.DataTypes;
@@ -44,7 +45,12 @@ namespace FinanceOne.Implementation.Services
         Id = Guid.NewGuid(),
         CategoryId = foundCategory.Id,
         Name = createFinancialMovementViewModel.Name,
+        Description = createFinancialMovementViewModel.Description,
+        Amount = createFinancialMovementViewModel.Amount,
         Cost = createFinancialMovementViewModel.Cost,
+        Paid = UtilEnum.Parse<IndicatorYesNo>(
+          createFinancialMovementViewModel.Paid
+        ),
         FinancialMovementType = UtilEnum.Parse<FinancialMovementType>(
           createFinancialMovementViewModel.FinancialMovementType
         ),
@@ -154,8 +160,18 @@ namespace FinanceOne.Implementation.Services
         throw new BusinessException("Financial movement not found.");
 
       foundFinancialMovement.Name = updateFinancialMovementViewModel.Name;
+      foundFinancialMovement.Amount = updateFinancialMovementViewModel.Amount;
+      foundFinancialMovement.Name = updateFinancialMovementViewModel.Name;
       foundFinancialMovement.Cost = updateFinancialMovementViewModel.Cost;
       foundFinancialMovement.UpdatedAt = DateTime.UtcNow;
+
+      foundFinancialMovement.Description =
+        updateFinancialMovementViewModel.Description;
+
+      foundFinancialMovement.Paid =
+        UtilEnum.Parse<IndicatorYesNo>(
+          updateFinancialMovementViewModel.Paid
+        );
 
       foundFinancialMovement.FinancialMovementType =
         UtilEnum.Parse<FinancialMovementType>(

@@ -2,6 +2,7 @@ using System;
 using FinanceOne.Domain.Enumerators;
 using FinanceOne.Shared.ViewModels;
 using FinanceOne.Shared.Util.DataTypes;
+using FinanceOne.Shared.Enumerators;
 
 namespace FinanceOne.Domain.ViewModels.FinancialMovementViewModels
 {
@@ -9,6 +10,9 @@ namespace FinanceOne.Domain.ViewModels.FinancialMovementViewModels
   {
     public string Name { get; set; }
     public decimal Cost { get; set; }
+    public string Description { get; set; }
+    public long Amount { get; set; }
+    public string Paid { get; set; }
     public string UserId { get; set; }
     public string CategoryId { get; set; }
     public string FinancialMovementType { get; set; }
@@ -38,12 +42,24 @@ namespace FinanceOne.Domain.ViewModels.FinancialMovementViewModels
       if (this.Cost <= 0)
         this._brokenRules.Add("Cost must be a positive value.");
 
+      if (this.Amount <= 0)
+        this._brokenRules.Add("Amount must be a positive value.");
+
+      if (this.Paid == null)
+        this._brokenRules.Add("Paid is required.");
+
+      if (!UtilEnum.TryParse<IndicatorYesNo>(
+        this.Paid,
+        out var parsedEnumValueA
+      ))
+        this._brokenRules.Add("Paid is invalid.");
+
       if (this.FinancialMovementType == null)
         this._brokenRules.Add("FinancialMovementType is required.");
 
       if (!UtilEnum.TryParse<FinancialMovementType>(
         this.FinancialMovementType,
-        out var parsedEnumValue
+        out var parsedEnumValueB
       ))
         this._brokenRules.Add("FinancialMovementType is invalid.");
 

@@ -31,6 +31,14 @@ namespace FinanceOne.DataAccess.Configurations
         .HasColumnName("cost")
         .IsRequired();
 
+      builder.Property(pre => pre.Description)
+        .HasColumnName("description")
+        .IsRequired(false);
+
+      builder.Property(pre => pre.Description)
+        .HasColumnName("amount")
+        .IsRequired();
+
       builder.Property(pre => pre.CreatedAt)
         .HasColumnName("created_at")
         .IsRequired();
@@ -56,6 +64,17 @@ namespace FinanceOne.DataAccess.Configurations
         .HasConversion(
           enumValue => ((char)enumValue).ToString(),
           charValue => UtilEnum.Parse<FinancialMovementType>(charValue)
+        )
+        .IsRequired();
+
+
+      builder.Property(pre => pre.Paid)
+        .HasColumnName("paid")
+        .HasColumnType("char")
+        .HasDefaultValue(IndicatorYesNo.No)
+        .HasConversion(
+          enumValue => ((char)enumValue).ToString(),
+          charValue => UtilEnum.Parse<IndicatorYesNo>(charValue)
         )
         .IsRequired();
 

@@ -12,6 +12,9 @@ namespace FinanceOne.Domain.ViewModels.FinancialMovementViewModels
     public DateTime UpdatedAt { get; set; }
     public string CategoryId { get; set; }
     public string Name { get; set; }
+    public string Description { get; set; }
+    public long Amount { get; set; }
+    public string Paid { get; set; }
     public decimal Cost { get; set; }
     public string FinancialMovementType { get; set; }
 
@@ -25,6 +28,11 @@ namespace FinanceOne.Domain.ViewModels.FinancialMovementViewModels
       CategoryId = financialMovement.CategoryId.ToString(),
       Name = financialMovement.Name,
       Cost = financialMovement.Cost,
+      Description = financialMovement.Description,
+      Amount = financialMovement.Amount,
+      Paid = (
+        (char)financialMovement.Paid
+      ).ToString(),
       FinancialMovementType = (
         (char)financialMovement.FinancialMovementType
       ).ToString()
