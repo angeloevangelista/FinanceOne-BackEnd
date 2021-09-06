@@ -1,5 +1,8 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using FinanceOne.Domain.Entities;
+using FinanceOne.Domain.ViewModels.FinancialMovementViewModels;
 using FinanceOne.Shared.ViewModels;
 
 namespace FinanceOne.Domain.ViewModels.CategoryViewModels
@@ -11,6 +14,7 @@ namespace FinanceOne.Domain.ViewModels.CategoryViewModels
     public string Description { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
+    public IEnumerable<ShowFinancialMovementResponseViewModel> FinancialMovements { get; set; }
 
     public static ShowCategoryResponseViewModel ConvertFromEntity(
       Category category
@@ -21,6 +25,9 @@ namespace FinanceOne.Domain.ViewModels.CategoryViewModels
       UpdatedAt = category.UpdatedAt,
       Name = category.Name,
       Description = category.Description,
+      FinancialMovements = category.FinancialMovements?.Select(p =>
+        ShowFinancialMovementResponseViewModel.ConvertFromEntity(p)
+      )
     };
   }
 }

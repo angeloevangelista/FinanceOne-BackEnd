@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using FinanceOne.Domain.ViewModels.CategoryViewModels;
 using FinanceOne.Domain.ViewModels.FinancialMovementViewModels;
 
 namespace FinanceOne.Domain.Services
@@ -23,6 +24,9 @@ namespace FinanceOne.Domain.Services
 
     void DeleteFinancialMovement(
       DeleteFinancialMovementViewModel deleteFinancialMovementViewModel
+    );
+    IList<ShowCategoryResponseViewModel> ListFinancialMovementsByUser(
+      ListFinancialMovementsByUserViewModel listFinancialMovementsByUserViewModel
     );
   }
 }

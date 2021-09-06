@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using FinanceOne.Shared.Entities;
 
 namespace FinanceOne.Domain.Entities

@@ -79,5 +79,19 @@ namespace FinanceOne.Implementation.Repositories
 
       return categories;
     }
+
+    public IList<Category> ListByUserIncludingFinancialMovements(Category category)
+    {
+      var categories = this._financeOneDataContext.Categories
+        .AsNoTracking()
+        .Where(p =>
+          p.UserId == category.UserId
+          && p.Active == category.Active
+        )
+        .Include(p => p.FinancialMovements)
+        .ToList();
+
+      return categories;
+    }
   }
 }

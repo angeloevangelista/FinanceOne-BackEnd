@@ -80,7 +80,7 @@ namespace FinanceOne.DataAccess.Configurations
 
       builder
         .HasOne<Category>(pre => pre.Category)
-        .WithMany()
+        .WithMany(pre => pre.FinancialMovements)
         .HasForeignKey(pre => pre.CategoryId)
         .HasConstraintName("fk_category")
         .OnDelete(DeleteBehavior.Cascade);

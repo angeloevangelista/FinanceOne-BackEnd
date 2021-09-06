@@ -4,6 +4,7 @@ using System.Linq;
 using FinanceOne.Domain.Entities;
 using FinanceOne.Domain.Enumerators;
 using FinanceOne.Domain.Services;
+using FinanceOne.Domain.ViewModels.CategoryViewModels;
 using FinanceOne.Domain.ViewModels.FinancialMovementViewModels;
 using FinanceOne.Shared.Enumerators;
 using FinanceOne.Shared.Exceptions;
@@ -136,6 +137,26 @@ namespace FinanceOne.Implementation.Services
           ShowFinancialMovementResponseViewModel.ConvertFromEntity(p)
         )
         .ToList();
+    }
+
+    public IList<ShowCategoryResponseViewModel> ListFinancialMovementsByUser(
+      ListFinancialMovementsByUserViewModel listFinancialMovementsByUserViewModel
+    )
+    {
+      var categories = this._categoryRepository
+        .ListByUserIncludingFinancialMovements(new Category()
+        {
+          Active = IndicatorYesNo.Yes,
+          UserId = Guid.Parse(listFinancialMovementsByUserViewModel.UserId)
+        });
+
+      var categoriesResponse = categories
+        .Select(p =>
+          ShowCategoryResponseViewModel.ConvertFromEntity(p)
+        )
+        .ToList();
+
+      return categoriesResponse;
     }
 
     public ShowFinancialMovementResponseViewModel UpdateFinancialMovement(

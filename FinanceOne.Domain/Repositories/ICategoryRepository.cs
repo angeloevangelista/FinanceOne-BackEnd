@@ -10,5 +10,6 @@ namespace FinanceOne.Shared.Repositories
     void Delete(Category category);
     Category FindById(Category category);
     IList<Category> ListByUser(Category category);
+    IList<Category> ListByUserIncludingFinancialMovements(Category category);
   }
 }

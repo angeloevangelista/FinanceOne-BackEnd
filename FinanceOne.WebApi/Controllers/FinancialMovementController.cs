@@ -6,6 +6,7 @@ using FinanceOne.Domain.ViewModels.FinancialMovementViewModels;
 using FinanceOne.Domain.Entities;
 using System.Collections;
 using System.Collections.Generic;
+using FinanceOne.Domain.ViewModels.CategoryViewModels;
 
 namespace FinanceOne.WebApi.Controllers
 {
@@ -74,7 +75,7 @@ namespace FinanceOne.WebApi.Controllers
 
     [HttpGet]
     [Route("/v1/categories/{categoryId}/financial-movements")]
-    public ActionResult<IList<ShowFinancialMovementResponseViewModel>> ListFinancialMovements(
+    public ActionResult<IList<ShowFinancialMovementResponseViewModel>> ListFinancialMovementsByCategory(
       [FromRoute]
       string categoryId
     )
@@ -138,6 +139,26 @@ namespace FinanceOne.WebApi.Controllers
       );
 
       return NoContent();
+    }
+
+    [HttpGet]
+    [Route("/v1/financial-movements")]
+    public ActionResult<IList<ShowCategoryResponseViewModel>> ListFinancialMovementsByUser()
+    {
+      var listFinancialMovementsByUserViewModel =
+        new ListFinancialMovementsByUserViewModel()
+        {
+          UserId = GetTokenPayload<SessionPayload>().Id
+        };
+
+      ValidateViewModel(listFinancialMovementsByUserViewModel);
+
+      var financialMovements = this._financialMovementService
+        .ListFinancialMovementsByUser(
+          listFinancialMovementsByUserViewModel
+        );
+
+      return Ok(financialMovements);
     }
   }
 }

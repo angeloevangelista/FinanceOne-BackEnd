@@ -3,15 +3,17 @@ using System;
 using FinanceOne.DataAccess.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace FinanceOne.DataAccess.Migrations
 {
     [DbContext(typeof(FinanceOneDataContext))]
-    partial class FinanceOneDataContextModelSnapshot : ModelSnapshot
+    [Migration("20210905030415_adding-capital-amounts")]
+    partial class addingcapitalamounts
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -41,22 +43,12 @@ namespace FinanceOne.DataAccess.Migrations
                         .HasColumnType("timestamp without time zone")
                         .HasColumnName("created_at");
 
-                    b.Property<DateTime>("ReferenceDate")
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("reference_date");
-
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp without time zone")
                         .HasColumnName("updated_at");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("user_id");
-
                     b.HasKey("Id")
                         .HasName("pk_capital_amounts");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("capital_amounts");
                 });
@@ -126,9 +118,6 @@ namespace FinanceOne.DataAccess.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("category_id");
 
-                    b.Property<Guid?>("CategoryId1")
-                        .HasColumnType("uuid");
-
                     b.Property<decimal>("Cost")
                         .HasColumnType("numeric")
                         .HasColumnName("cost");
@@ -169,8 +158,6 @@ namespace FinanceOne.DataAccess.Migrations
                         .HasName("pk_financial_movements");
 
                     b.HasIndex("CategoryId");
-
-                    b.HasIndex("CategoryId1");
 
                     b.ToTable("financial_movements");
                 });
@@ -265,18 +252,6 @@ namespace FinanceOne.DataAccess.Migrations
                     b.ToTable("users");
                 });
 
-            modelBuilder.Entity("FinanceOne.Domain.Entities.CapitalAmount", b =>
-                {
-                    b.HasOne("FinanceOne.Domain.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .HasConstraintName("fk_user")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("FinanceOne.Domain.Entities.Category", b =>
                 {
                     b.HasOne("FinanceOne.Domain.Entities.User", "User")
@@ -298,10 +273,6 @@ namespace FinanceOne.DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("FinanceOne.Domain.Entities.Category", null)
-                        .WithMany("FinancialMovements")
-                        .HasForeignKey("CategoryId1");
-
                     b.Navigation("Category");
                 });
 
@@ -315,11 +286,6 @@ namespace FinanceOne.DataAccess.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("FinanceOne.Domain.Entities.Category", b =>
-                {
-                    b.Navigation("FinancialMovements");
                 });
 #pragma warning restore 612, 618
         }

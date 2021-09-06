@@ -23,5 +23,6 @@ namespace FinanceOne.DataAccess.Contexts
     public DbSet<RefreshToken> RefreshTokens { get; private set; }
     public DbSet<Category> Categories { get; private set; }
     public DbSet<FinancialMovement> FinancialMovements { get; private set; }
+    public DbSet<CapitalAmount> CapitalAmounts { get; private set; }
   }
 }
